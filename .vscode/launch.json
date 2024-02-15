@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Zig",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/json_parser/zig-out/bin/json_parser",
+      "args": [
+        "${workspaceFolder}/json_parser/tests/step2/invalid.json"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "zig-build-debug",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "linux": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb"
+      },
+      "windows": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe"
+      },
+      "osx": {
+        "MIMode": "lldb"
+      }
+    }
+  ]
+}
