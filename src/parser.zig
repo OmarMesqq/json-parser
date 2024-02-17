@@ -3,8 +3,7 @@ const std = @import("std");
 const ArrayList = std.ArrayList;
 const Token = @import("token.zig").Token;
 const TokenType = @import("token.zig").TokenType;
-
-const SyntacticError = error{ InvalidKey, NotObjectNorArray, NoColonFound, TrailingComma };
+const SyntacticError = @import("errors.zig").SyntacticError;
 
 pub const Parser = struct {
     tokens: ArrayList(Token),

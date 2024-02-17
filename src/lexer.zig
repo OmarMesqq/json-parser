@@ -3,8 +3,7 @@ const std = @import("std");
 const ArrayList = std.ArrayList;
 const Token = @import("token.zig").Token;
 const TokenType = @import("token.zig").TokenType;
-
-const LexicalError = error{ UnknownToken, EmptyInput, UnexpectedEndOfString, UnexpectedEndOfNumber };
+const LexicalError = @import("errors.zig").LexicalError;
 
 pub const Lexer = struct {
     input: []const u8,
