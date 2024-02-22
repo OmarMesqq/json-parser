@@ -73,8 +73,6 @@ pub const Parser = struct {
 
     // Recursive descent parser
     pub fn parse(self: *Parser) SyntacticError!void {
-        std.debug.print("[P] Size of tokens array: {d}\n", .{self.tokens.items.len});
-
         while (self.index < self.tokens.items.len) {
             var current = self.tokens.items[self.index].ttype;
 
