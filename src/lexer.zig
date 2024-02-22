@@ -74,7 +74,7 @@ pub const Lexer = struct {
 
     pub fn tokenize(self: *Lexer) !ArrayList(Token) {
         if (self.input.len == 0) {
-            return LexicalError.EmptyInput;
+            return LexicalError.EmptyFile;
         }
 
         while (self.position < self.input.len) {
