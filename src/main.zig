@@ -49,7 +49,7 @@ pub fn main() !void {
     };
 
     if (comptime buildConfig.debugOption) {
-        try printTokens(tokenList);
+        try printLexedTokens(tokenList);
     }
 
     var parser = Parser.init(&allocator, tokenList);
@@ -61,7 +61,7 @@ pub fn main() !void {
     std.debug.print("Valid JSON.\n", .{});
 }
 
-fn printTokens(tokens: ArrayList(Token)) !void {
+fn printLexedTokens(tokens: ArrayList(Token)) !void {
     for (tokens.items) |token| {
         // Assumes lexeme is UTF-8 encoded and valid for the types specified
         if (token.ttype == TokenType.String or token.ttype == TokenType.Number or

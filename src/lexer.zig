@@ -24,7 +24,6 @@ pub const Lexer = struct {
         while (true) {
             if (end >= self.input.len) {
                 if (comptime self.debugEnabled) {
-                    std.debug.print("[F] UCK OFF .\n", .{});
                     std.debug.print("[L] String tokenized from position {d} to {d}.\n", .{ start - 1, end });
                 }
                 std.debug.print("[L] End of input reached without closing quotation mark.\n", .{});
