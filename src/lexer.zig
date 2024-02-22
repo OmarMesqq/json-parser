@@ -132,7 +132,7 @@ pub const Lexer = struct {
                 try self.tokens.append(Token{ .lexeme = "true", .ttype = TokenType.True });
             } else {
                 self.position += 1;
-                std.debug.print("[L] Found unkown character during lexing!\nPosition: {d}\nASCII code: {d}\n", .{ self.position, token });
+                std.debug.print("[L] Found unknown character during lexing!\nPosition: {d}\nASCII code: {d}\n", .{ self.position, token });
                 return LexicalError.UnknownToken;
             }
             if (comptime self.debugEnabled) {
