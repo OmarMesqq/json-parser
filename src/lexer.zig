@@ -4,12 +4,14 @@ const ArrayList = std.ArrayList;
 const Token = @import("token.zig").Token;
 const TokenType = @import("token.zig").TokenType;
 const LexicalError = @import("errors.zig").LexicalError;
+const buildConfig = @import("config");
 
 pub const Lexer = struct {
     input: []const u8,
     tokens: ArrayList(Token),
     allocator: *std.mem.Allocator,
     position: usize,
+    comptime debugEnabled: bool = buildConfig.debugOption,
 
     pub fn init(input: []const u8, allocator: *std.mem.Allocator) Lexer {
         return Lexer{ .input = input, .allocator = allocator, .tokens = ArrayList(Token).init(allocator.*), .position = 0 };
@@ -21,6 +23,10 @@ pub const Lexer = struct {
 
         while (true) {
             if (end >= self.input.len) {
+                if (comptime self.debugEnabled) {
+                    std.debug.print("[F] UCK OFF .\n", .{});
+                    std.debug.print("[L] String tokenized from position {d} to {d}.\n", .{ start - 1, end });
+                }
                 std.debug.print("[L] End of input reached without closing quotation mark.\n", .{});
                 return LexicalError.UnexpectedEndOfString;
             }
@@ -31,8 +37,10 @@ pub const Lexer = struct {
         }
 
         self.position = end + 1; // Move past the closing quotation mark
+        if (comptime self.debugEnabled) {
+            std.debug.print("[L] String tokenized from position {d} to {d}.\n", .{ start - 1, end });
+        }
 
-        std.debug.print("[L] String tokenized from position {d} to {d}.\n", .{ start - 1, end });
         return self.input[start..end];
     }
 
@@ -60,7 +68,10 @@ pub const Lexer = struct {
 
         self.position = end; // Update position to the next character after the number
 
-        std.debug.print("[L] Number tokenized from position {d} to {d}.\n", .{ start, end - 1 });
+        if (comptime self.debugEnabled) {
+            std.debug.print("[L] Number tokenized from position {d} to {d}.\n", .{ start, end - 1 });
+        }
+
         return self.input[start..end];
     }
 
@@ -82,7 +93,9 @@ pub const Lexer = struct {
 
             if (token == ' ' or token == '\n' or token == '\r' or token == '\t') {
                 self.position += 1;
-                std.debug.print("[L] Skipped whitespace\n", .{});
+                if (comptime self.debugEnabled) {
+                    std.debug.print("[L] Skipped whitespace\n", .{});
+                }
                 continue;
             } else if (token == '{') {
                 try self.tokens.append(Token{ .lexeme = self.input[self.position .. self.position + 1], .ttype = TokenType.ObjectStart });
@@ -123,7 +136,9 @@ pub const Lexer = struct {
                 std.debug.print("[L] Unknown character! ASCII code: {d}\n", .{token});
                 return LexicalError.UnknownToken;
             }
-            std.debug.print("[L] Analyzed character {c} at position {d}\n", .{ token, self.position });
+            if (comptime self.debugEnabled) {
+                std.debug.print("[L] Analyzed character {c} at position {d}\n", .{ token, self.position });
+            }
         }
         return self.tokens;
     }

@@ -4,6 +4,7 @@ const Parser = @import("parser.zig").Parser;
 const ArrayList = std.ArrayList;
 const Token = @import("token.zig").Token;
 const TokenType = @import("token.zig").TokenType;
+const buildConfig = @import("config");
 
 pub fn main() !void {
     var allocator = std.heap.page_allocator;
@@ -47,7 +48,9 @@ pub fn main() !void {
         return;
     };
 
-    try printTokens(tokenList);
+    if (comptime buildConfig.debugOption) {
+        try printTokens(tokenList);
+    }
 
     var parser = Parser.init(&allocator, tokenList);
     _ = parser.parse() catch |err| {
