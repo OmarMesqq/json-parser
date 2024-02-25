@@ -126,6 +126,9 @@ pub const Lexer = struct {
             } else if (self.startsWith(self.position, "true")) {
                 self.position += 4;
                 try self.tokens.append(Token{ .lexeme = "true", .ttype = TokenType.True });
+            } else if (token == '-' or (token >= '0' and token <= '9')) {
+                const number = try self.tokenizeNumber();
+                try self.tokens.append(Token{ .lexeme = number, .ttype = TokenType.Number });
             } else {
                 self.position += 1;
                 std.debug.print("[L] Found unknown character during lexing!\nPosition: {d}\nASCII code: {d}\n", .{ self.position, token });
