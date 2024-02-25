@@ -24,7 +24,7 @@ pub const Lexer = struct {
     }
 
     fn tokenizeString(self: *Lexer) ![]const u8 {
-        const start = self.position + 1;
+        const start = self.position + 1; // Skip current opening quotation mark
         var end = start;
 
         while (true) {
@@ -74,7 +74,6 @@ pub const Lexer = struct {
     }
 
     fn startsWith(self: *Lexer, currentPosition: usize, literal: []const u8) bool {
-        // Do not read beyond the input's length
         if (currentPosition + literal.len > self.input.len) {
             return false;
         }
