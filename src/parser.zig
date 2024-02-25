@@ -67,7 +67,7 @@ pub const Parser = struct {
             TokenType.ObjectStart => try self.parseObject(),
             TokenType.ArrayStart => try self.parseArray(),
             TokenType.String, TokenType.Number, TokenType.True, TokenType.False, TokenType.Null => self.index += 1, // Just move forward for these types
-            else => return error.NotObjectNorArray,
+            else => return SyntacticError.NotObjectNorArray,
         }
     }
 
@@ -81,7 +81,7 @@ pub const Parser = struct {
             } else if (current == TokenType.ArrayStart) {
                 try self.parseArray();
             } else {
-                unreachable;
+                return SyntacticError.NotObjectNorArray;
             }
         }
     }
